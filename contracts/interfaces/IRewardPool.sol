@@ -5,6 +5,7 @@ interface IRewardPool {
     function getReward() external;
     function stake(uint) external;
     function withdraw(uint) external;
+    function notifyRewardAmount(uint) external;
     function balanceOf(address) external view returns (uint256);
     function earned(address) external view returns (uint256);
     function getRewardForDuration() external view returns (uint256);
