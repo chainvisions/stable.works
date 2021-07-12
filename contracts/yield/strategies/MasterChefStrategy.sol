@@ -1,4 +1,4 @@
-pragma solidity 0.7.6;
+pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
@@ -13,10 +13,16 @@ import "../../interfaces/yield-farming/IMasterChef.sol";
 contract MasterChefStrategy is IYieldStrategy {
     using SafeERC20 for IERC20;
 
+    /// @notice Token to stake in the MasterChef.
     address public override underlying;
+
+    /// @notice Yield that the MasterChef rewards.
     address public override yieldToken;
 
+    /// @notice MasterChef contract to stake in.
     IMasterChef public rewardPool;
+
+    /// @notice Pool to deposit in.
     uint public poolId;
 
     constructor(address _underlying, address _yield, IMasterChef _pool, uint _pid) {

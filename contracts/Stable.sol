@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity 0.7.6;
+pragma solidity 0.8.6;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./lib/StableStorage.sol";
@@ -225,9 +225,38 @@ contract Stable is ERC20("Stable.Works", "STBL"), StableStorage, AccessControl {
         return uint32(n);
     }
 
-    function getChainId() internal pure returns (uint) {
+    function getChainId() internal view returns (uint) {
         uint chainId;
         assembly { chainId := chainid() }
         return chainId;
     }
+
+    /// @dev Performs a rebase on STBL's supply.
+    /// @param _epoch Current rebase epoch.
+    /// @param _indexDelta Index delta.
+    /// @param _positive Is the rebase positive.
+    function rebase(
+        uint256 _epoch, 
+        uint _indexDelta, 
+        bool _positive
+    ) external onlyRebaser returns (uint) {
+
+    }
+
+    function unitToStable(uint _unit) external view returns (uint) {
+        return _unitToStable(_unit);
+    }
+
+    function stableToUnit(uint _stable) external view returns (uint) {
+        return _stableToUnit(_stable);
+    }
+
+    function _unitToStable(uint _unit) internal view returns (uint) {
+        return _unit.mul(stableScalingFactor).div(_INTERNAL_DECIMALS);
+    }
+
+    function _stableToUnit(uint _stable) internal view returns (uint) {
+        return _stable.mul(_INTERNAL_DECIMALS).div(stableScalingFactor);
+    }
+
 }

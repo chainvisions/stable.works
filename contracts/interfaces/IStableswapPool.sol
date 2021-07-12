@@ -1,4 +1,4 @@
-pragma solidity 0.7.6;
+pragma solidity ^0.8.0;
 
 interface IStableswapPool {
     function originSwap(address, address, uint, uint, uint) external returns (uint);

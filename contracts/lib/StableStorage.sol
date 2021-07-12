@@ -1,4 +1,4 @@
-pragma solidity 0.7.6;
+pragma solidity 0.8.6;
 
 contract StableGovernanceStorage {
     mapping (address => address) internal _delegates;
@@ -32,6 +32,24 @@ contract StableGovernanceStorage {
 }
 
 contract StableStorage is StableGovernanceStorage {
+
+    /// @notice Stable Stabilizer
     bytes32 public constant STABILIZER_ROLE = keccak256("STABILIZER_ROLE");
+    
+    /// @notice Stable rebaser for emergency rebases.
     bytes32 public constant REBASER_ROLE = keccak256("REBASER_ROLE");
+
+    uint internal constant _INTERNAL_DECIMALS = 10**24;
+
+    uint internal constant BASE = 10**18;
+
+    /// @notice Scaling factor for Stable's supply.
+    uint public stableScalingFactor;
+
+    mapping(address => uint256) internal _balances;
+
+    mapping(address => mapping (address => uint256)) _allowedStables;
+    
+    /// @notice Initial supply for rebase logic.
+    uint public initialSupply;
 }
